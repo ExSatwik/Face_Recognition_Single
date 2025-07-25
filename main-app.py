@@ -12,9 +12,57 @@ import pickle
 
 from scipy.spatial.distance import cosine, euclidean
 
-st.set_page_config(page_title="Face Recognition", layout="wide")
-st.title("🔍 Face Recognition with DeepFace")
+#import streamlit as st
+import base64
 
+def set_bg_video(video_file):
+    with open(video_file, "rb") as file:
+        video_bytes = file.read()
+        encoded = base64.b64encode(video_bytes).decode()
+
+    video_html = f"""
+    <video autoplay loop muted playsinline style="position: fixed; right: 0; bottom: 0; min-width:100%; min-height:100%; z-index:-1;">
+        <source src="data:video/mp4;base64,{encoded}" type="video/mp4">
+    </video>
+    """
+    st.markdown(video_html, unsafe_allow_html=True)
+
+# Call this function at the top of your app
+#set_bg_video("bg (1).mp4")
+
+# Your app content here
+#st.title("Face Recognition App")
+#st.write("This is your app content on top of video background.")
+
+import streamlit as st
+
+def set_background_image(image_file):
+    with open(image_file, "rb") as f:
+        img_bytes = f.read()
+        encoded_img = f"data:image/jpg;base64,{base64.b64encode(img_bytes).decode()}"
+
+    page_bg_img = f"""
+    <style>
+    .stApp {{
+        background-image: url("{encoded_img}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }}
+    </style>
+    """
+    st.markdown(page_bg_img, unsafe_allow_html=True)
+
+# Set background
+import base64
+set_background_image("Bag.jpg")
+
+
+
+st.set_page_config(page_title="Face Recognition")
+st.title("Face Recognition with DeepFace")
+st.image("D:/Model ML/Photo_1.jpg", width=300)
 # ---- Input method selection ----
 input_method = st.selectbox("Choose input method", ["Upload", "Webcam"])
 
@@ -34,6 +82,7 @@ thresholds = {
 }
 
 threshold = thresholds.get(model_name, {}).get(distance_metric, 0.4)
+
 
 # ---- Distance function ----
 def calculate_distance(e1, e2, metric):
