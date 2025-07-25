@@ -3,7 +3,7 @@ import pandas as pd
 import os
 
 # ✅ All models you want to support
-models = ["Facenet", "VGG-Face", "ArcFace", "Dlib"]
+models = ["Facenet", "VGG-Face", "ArcFace"]
 
 # ✅ Your dataset folder (flat directory of face images)
 db_path = "faces"  # Make sure this exists

@@ -12,14 +12,14 @@ import pickle
 
 from scipy.spatial.distance import cosine, euclidean
 
-st.set_page_config(page_title="Face Recognition", layout="centered")
+st.set_page_config(page_title="Face Recognition", layout="wide")
 st.title("🔍 Face Recognition with DeepFace")
 
 # ---- Input method selection ----
 input_method = st.selectbox("Choose input method", ["Upload", "Webcam"])
 
 # ---- Model and distance metric ----
-model_name = st.selectbox("Choose model", ["VGG-Face", "Facenet", "ArcFace", "Dlib"])
+model_name = st.selectbox("Choose model", ["VGG-Face", "Facenet", "ArcFace"])
 distance_metric = st.selectbox("Choose distance metric", ["cosine", "euclidean", "euclidean_l2"])
 
 # ---- Define the correct .pkl file to use ----
@@ -30,8 +30,7 @@ embedding_file = f"./embeddings/representations_{model_key}.pkl"
 thresholds = {
     "Facenet": {"cosine": 0.35, "euclidean": 8.5, "euclidean_l2": 0.85},
     "VGG-Face": {"cosine": 0.35, "euclidean": 12, "euclidean_l2": 1.1},
-    "ArcFace": {"cosine": 0.35, "euclidean": 9.5, "euclidean_l2": 0.85},
-    "Dlib": {"cosine": 0.06, "euclidean": 0.55, "euclidean_l2": 0.35}
+    "ArcFace": {"cosine": 0.35, "euclidean": 9.5, "euclidean_l2": 0.85}
 }
 
 threshold = thresholds.get(model_name, {}).get(distance_metric, 0.4)
@@ -153,7 +152,8 @@ if query_img_path:
                 person_name = name_only.replace("_", " ").title()
 
                 # Show matched image with name
-                st.image(img, caption=person_name, width=300)
+                st.markdown(f"### 🧑 Matched Person: **{person_name}**")
+                st.image(img, width=300)
 
             else:
                 st.error("❌ Match Rejected")
